@@ -1,15 +1,13 @@
 public class Heapsort {
-    public static int sort(int[] list){
-        int count = 0;
+    public static void sort(int[] list){
         int n = list.length;
         // Построение кучи
-        count+=heapify(list, n);
+        heapify(list, n);
         for (int ii = 0; ii < list.length; ii++) {
             swap(list, 0, --n);            
-            count+=recursivelyDownwards(list, n, 0, 1);
+            recursivelyDownwards(list, n, 0);
     
         }
-        return count;
     }
     static void swap(int[] list, int i, int j){
         int temp=list[i];
@@ -18,49 +16,45 @@ public class Heapsort {
     }
 
 
-    static int recursivelyDownwards(int[] list, int size, int i, int count){
+    static void recursivelyDownwards(int[] list, int size, int i){
         int leftChild = 2*i + 1;
         int rightChild = 2*i + 2;
-        if (leftChild >= size){return count;}
+        if (leftChild >= size){return;}
         if (rightChild >= size && list[leftChild] > list[i]) {
             swap(list, leftChild, i);
-            return count;
+            return;
         }
         if(rightChild >= size && list[leftChild] <= list[i]){
-            return count;
+            return;
         }
         if (list[leftChild] > list[i] || list[rightChild] > list[i]){
             if (list[leftChild] > list[rightChild]){
                 swap(list, i, leftChild);
-                return recursivelyDownwards(list, size, leftChild, count+1);
+                recursivelyDownwards(list, size, leftChild);
             } else{
                 swap(list, i, rightChild);
-                return recursivelyDownwards(list, size, rightChild, count+1);
+                recursivelyDownwards(list, size, rightChild);
             }
         } 
-        return count;
     }
 
 
-    static int recursivelyUpwards(int[] list, int size, int i, int count){
+    static void recursivelyUpwards(int[] list, int size, int i){
         int parent=(i-1)/2;
         if(i==0 || parent>=size){
-            return count;
+            return;
         }
 
         if (list[parent] < list[i]){
             swap(list, i, parent);
-            return recursivelyUpwards(list, size, parent, count+1);
+            recursivelyUpwards(list, size, parent);
         }
-        return count;
     }
 
     
-    static int heapify(int list[], int size){
-        int q = 0;
+    static void heapify(int list[], int size){
         for (int i = 0; i < size;i++){
-            q += recursivelyUpwards(list, size, i, 1);
+            recursivelyUpwards(list, size, i);
         }
-        return q;
     }
 }
