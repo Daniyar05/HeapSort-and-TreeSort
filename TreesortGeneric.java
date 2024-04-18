@@ -2,7 +2,6 @@ public class TreesortGeneric<T extends Number & Comparable<T>> {
     DoubleLinkedList<T> tree;
     int size;
     int indexNext = 0;
-    int count=0;
     public TreesortGeneric(T[] a) {
         createTree(a);
     }
@@ -16,21 +15,19 @@ public class TreesortGeneric<T extends Number & Comparable<T>> {
         
     }
     public void put(T elem){
-        count+=tree.add(elem);
+        tree.add(elem);
     }
 
     private LinkedElement<T> up(LinkedElement<T> nowElement){count++; return nowElement.getParent();}
     private LinkedElement<T> downLessAll(LinkedElement<T> nowElement){
         while (nowElement.getNextLess() != null) {
             nowElement = nowElement.getNextLess();
-            count++;
         }
-        count++;
         return nowElement;
     }
 
 
-    public int getSortedArray(){
+    public void getSortedArray(){
         ArrayListGeneric<T> sort = new ArrayListGeneric<>();
         boolean normalStatus = tree.getFirstElement().getStatus();
         LinkedElement<T> nowElement = tree.getFirstElement();
@@ -47,10 +44,8 @@ public class TreesortGeneric<T extends Number & Comparable<T>> {
             if (nowElement.getStatus() == normalStatus){
                 sort.add(nowElement.getElem());
                 nowElement.reworkStatus();
-                count++;
             }
             
         }
-        return count;
     }
 }
